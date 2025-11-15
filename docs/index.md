@@ -32,6 +32,9 @@ You can now run NYNS against a script file:
 > NYNS reads the script line‑by‑line and ignores empty lines and comments
 > (lines starting with `#`).
 
+You can also build and use the C++ interpreter (`bin/nyns_cpp`) from
+`bin/nyns.cpp`; see **C++ NYNS Interpreter (`nyns.cpp`)** below for details.
+
 ## Writing Your First NYNS Script
 
 Create a file called `example.nyns` in the `nyns` folder:
@@ -58,7 +61,8 @@ You should see:
 
 ## Built‑in Commands
 
-NYNS currently understands these commands:
+NYNS currently understands these commands (implemented in both the Bash
+script and the C++ interpreter):
 
 - `echo <text1> <text2>` – print the two arguments as a line of text.
 - `+ <a> <b>` – output the sum of `a` and `b`.
@@ -70,8 +74,10 @@ NYNS currently understands these commands:
 - `create <path>` – create an empty file.
 - `adm <cmd>` – run a command as root; only works if NYNS itself is running
   with root privileges (no `sudo` wrapper).
-- `partition <device>` – reserved command; in the C++ build it prints an
-  error and does not modify disks.
+- `partition <image> [clean|add]` – on the Bash side wraps `fdisk` on a
+  device; in the C++ build operates on a disk image file and can show the MBR
+  partition table, wipe it (`clean`/`wipe`), or add a single primary
+  partition (`add`).
 - `help` – print a summary of available commands inside NYNS.
 - `import <script.nyns>` – run another NYNS script file from within the
   current script.
@@ -103,7 +109,9 @@ Some NYNS commands wrap powerful system utilities:
 - In the Bash script, `adm` runs commands with `sudo` and `partition` wraps
   `fdisk`, both of which can affect disks and the whole system.
 - In the C++ build, `adm` only works when NYNS is run as root, and
-  `partition` is a stub that does not touch disks.
+  `partition` can both inspect and modify the MBR of a disk image: it can
+  wipe the partition table or create a single primary partition by writing
+  directly to the image.
 
 Only run scripts you trust and understand, and test on non‑critical systems
 first.
@@ -120,8 +128,9 @@ OS/boot tooling or BIOS‑oriented experiments).
 - Runs NYNS scripts line‑by‑line just like `nyns.sh`, including nested scripts
   via `import`.
 - Implements `ip` directly via networking APIs (no `ip` binary), requires
-  NYNS to be run as root for `adm`, and treats `partition` as a non‑functional
-  stub (no `fdisk` dependency).
+  NYNS to be run as root for `adm`, and implements `partition` as a small
+  MBR tool for disk images: it can print the current partition entries, wipe
+  the table, or add a single primary partition without calling `fdisk`.
 
 To build the C++ interpreter on a typical Linux system:
 
