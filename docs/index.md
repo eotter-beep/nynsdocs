@@ -99,8 +99,11 @@ Run it with:
 
 Some NYNS commands wrap powerful system utilities:
 
-- `rem`, `rem -f`, and `partition` can delete data or modify disks.
-- `adm` runs commands with `sudo`, which can affect the whole system.
+- `rem` and `rem -f` can delete data recursively.
+- In the Bash script, `adm` runs commands with `sudo` and `partition` wraps
+  `fdisk`, both of which can affect disks and the whole system.
+- In the C++ build, `adm` only works when NYNS is run as root, and
+  `partition` is a stub that does not touch disks.
 
 Only run scripts you trust and understand, and test on non‑critical systems
 first.
