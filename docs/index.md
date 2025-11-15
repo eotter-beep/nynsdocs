@@ -20,4 +20,4 @@ Import it in a .sh script like:
 
 ## Contributing to NYNS Docs
 
-Go (https://github.com/eotter-beep/nynsdocs)[Here] to contribute
+Go [Here](https://github.com/eotter-beep/nynsdocs) to contribute
