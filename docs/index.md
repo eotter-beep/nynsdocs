@@ -80,7 +80,7 @@ script and the C++ interpreter):
   (`clean`/`wipe`), add a single primary partition (`add`), or create a new
   small image containing one partition (`create`).
 - `help` – print a summary of available commands inside NYNS.
-- `import <script.nyns>` – run another NYNS script file from within the
+- `import <script>` – run another NYNS script file from within the
   current script.
 
 Any other first word on a line is treated as an unknown command and will
