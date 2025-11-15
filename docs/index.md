@@ -72,6 +72,7 @@ NYNS currently understands these commands:
 - `partition <device>` – run `fdisk` on the given device (**advanced and
   dangerous**).
 - `help` – print a summary of available commands inside NYNS.
+- `import` - Import something in Nyns (python-like syntax)
 
 Any other first word on a line is treated as an unknown command and will
 produce an error message.
