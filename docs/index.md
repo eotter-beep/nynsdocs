@@ -17,3 +17,7 @@ Import it in a .sh script like:
 `./nyns.sh`, if your script is in the NYNS bin folder,
 
 `help` should be used for command help, This documentation wont help you run commands,
+
+## Contributing to NYNS Docs
+
+Go (https://github.com/eotter-beep/nynsdocs)[Here] to contribute
