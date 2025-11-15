@@ -74,6 +74,11 @@ script and the C++ interpreter):
 - `create <path>` – create an empty file.
 - `adm <cmd>` – run a command as root; only works if NYNS itself is running
   with root privileges (no `sudo` wrapper).
+- `button` – manage a simple text‑based UI menu in the C++ build; supports
+  `button add -text <label>`, `button select <index>`, `button next`, and
+  `button prev` to navigate between labeled entries.
+- `display -change <text>` – in the C++ build, update the text shown in the
+  TUI “display” area that is rendered alongside `button` menus.
 - `partition <image> [clean|add|create]` – on the Bash side wraps `fdisk` on
   a device; in the C++ build operates on a disk image file only (never real
   block devices) and can show the MBR partition table, wipe it
@@ -145,6 +150,22 @@ You can then execute a script with:
 
 ```bash
 ./bin/nyns_cpp path/to/script.nyns
+```
+
+Example: using `partition` with disk images in the C++ build:
+
+```bash
+# Inspect existing MBR partitions in an image
+partition disk.img
+
+# Wipe the MBR partition table in an image
+partition disk.img clean
+
+# Add a single Linux partition spanning the image
+partition disk.img add
+
+# Create a new 512 KiB image with one partition
+partition disk.img create
 ```
 
 When experimenting with OS development or BIOS‑level workflows, you can
