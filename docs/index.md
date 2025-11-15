@@ -74,10 +74,11 @@ script and the C++ interpreter):
 - `create <path>` – create an empty file.
 - `adm <cmd>` – run a command as root; only works if NYNS itself is running
   with root privileges (no `sudo` wrapper).
-- `partition <image> [clean|add]` – on the Bash side wraps `fdisk` on a
-  device; in the C++ build operates on a disk image file and can show the MBR
-  partition table, wipe it (`clean`/`wipe`), or add a single primary
-  partition (`add`).
+- `partition <image> [clean|add|create]` – on the Bash side wraps `fdisk` on
+  a device; in the C++ build operates on a disk image file only (never real
+  block devices) and can show the MBR partition table, wipe it
+  (`clean`/`wipe`), add a single primary partition (`add`), or create a new
+  small image containing one partition (`create`).
 - `help` – print a summary of available commands inside NYNS.
 - `import <script.nyns>` – run another NYNS script file from within the
   current script.
@@ -110,8 +111,8 @@ Some NYNS commands wrap powerful system utilities:
   `fdisk`, both of which can affect disks and the whole system.
 - In the C++ build, `adm` only works when NYNS is run as root, and
   `partition` can both inspect and modify the MBR of a disk image: it can
-  wipe the partition table or create a single primary partition by writing
-  directly to the image.
+  wipe the partition table, create a single primary partition, or even create
+  a fresh image file, but it refuses to touch real `/dev/*` block devices.
 
 Only run scripts you trust and understand, and test on non‑critical systems
 first.
@@ -130,7 +131,8 @@ OS/boot tooling or BIOS‑oriented experiments).
 - Implements `ip` directly via networking APIs (no `ip` binary), requires
   NYNS to be run as root for `adm`, and implements `partition` as a small
   MBR tool for disk images: it can print the current partition entries, wipe
-  the table, or add a single primary partition without calling `fdisk`.
+  the table, add a single primary partition, or create a new image with one
+  partition, while refusing to operate on real block devices.
 
 To build the C++ interpreter on a typical Linux system:
 
