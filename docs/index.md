@@ -103,6 +103,35 @@ Some NYNS commands wrap powerful system utilities:
 Only run scripts you trust and understand, and test on non‑critical systems
 first.
 
+## C++ NYNS Interpreter (`nyns.cpp`)
+
+Alongside the Bash implementation, NYNS also has a C++ port intended for
+environments where a full shell is not available (for example, low‑level
+OS/boot tooling or BIOS‑oriented experiments).
+
+- Source location: `bin/nyns.cpp` in the main NYNS repo.
+- Implements the same core commands described above (`echo`, `+`, `-`, `rem`,
+  `moveto`, `help`, `ip`, `create`, `adm`, `partition`).
+- Runs NYNS scripts line‑by‑line just like `nyns.sh`.
+
+To build the C++ interpreter on a typical Linux system:
+
+```bash
+cd nyns
+g++ -std=c++17 -O2 -o bin/nyns_cpp bin/nyns.cpp
+```
+
+You can then execute a script with:
+
+```bash
+./bin/nyns_cpp path/to/script.nyns
+```
+
+When experimenting with OS development or BIOS‑level workflows, you can
+cross‑compile `nyns.cpp` for your target environment and gradually replace
+its host‑OS calls (`ip`, `adm`, `partition`, etc.) with platform‑specific
+implementations.
+
 ## Contributing to NYNS and These Docs
 
 - NYNS source code: <https://github.com/eotter-beep/nyns>
