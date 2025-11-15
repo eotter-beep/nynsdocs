@@ -1,8 +1,9 @@
 ﻿# NYNS (Not Yo' Normal Shell)
 
-NYNS is a tiny, script‑driven shell written in Bash. Instead of typing
-commands interactively, you write a **NYNS script file**, and NYNS executes
-each line in order.
+NYNS is a tiny, script‑driven shell. Instead of typing commands interactively,
+you write a **NYNS script file**, and NYNS executes each line in order. NYNS
+started as a Bash script and now also has a C++ implementation (`nyns.cpp`)
+with minimal external dependencies.
 
 This site explains how to install NYNS, write NYNS scripts, and understand the
 available commands.
@@ -62,17 +63,18 @@ NYNS currently understands these commands:
 - `echo <text1> <text2>` – print the two arguments as a line of text.
 - `+ <a> <b>` – output the sum of `a` and `b`.
 - `- <a> <b>` – output the result of `a - b`.
-- `rem <path>` – delete a file or directory recursively (**dangerous**,
-  uses `rm -rf`).
-- `rem -f <path>` – force delete a file (`rm -f`).
+- `rem <path>` – recursively delete a file or directory (**dangerous**).
+- `rem -f <path>` – recursively delete a path and ignore “not found” errors.
 - `moveto <path>` – change directory to `path` (like `cd`).
-- `ip` – show IP address information (`ip addr`).
-- `create <path>` – create an empty file (`touch`).
-- `adm <cmd>` – run a command as root using `sudo` (be careful).
-- `partition <device>` – run `fdisk` on the given device (**advanced and
-  dangerous**).
+- `ip` – show IP address information (IPv4/IPv6 per interface).
+- `create <path>` – create an empty file.
+- `adm <cmd>` – run a command as root; only works if NYNS itself is running
+  with root privileges (no `sudo` wrapper).
+- `partition <device>` – reserved command; in the C++ build it prints an
+  error and does not modify disks.
 - `help` – print a summary of available commands inside NYNS.
-- `import` - Import something in Nyns (python-like syntax)
+- `import <script.nyns>` – run another NYNS script file from within the
+  current script.
 
 Any other first word on a line is treated as an unknown command and will
 produce an error message.
@@ -111,8 +113,12 @@ OS/boot tooling or BIOS‑oriented experiments).
 
 - Source location: `bin/nyns.cpp` in the main NYNS repo.
 - Implements the same core commands described above (`echo`, `+`, `-`, `rem`,
-  `moveto`, `help`, `ip`, `create`, `adm`, `partition`).
-- Runs NYNS scripts line‑by‑line just like `nyns.sh`.
+  `moveto`, `help`, `ip`, `create`, `adm`, `partition`, `import`).
+- Runs NYNS scripts line‑by‑line just like `nyns.sh`, including nested scripts
+  via `import`.
+- Implements `ip` directly via networking APIs (no `ip` binary), requires
+  NYNS to be run as root for `adm`, and treats `partition` as a non‑functional
+  stub (no `fdisk` dependency).
 
 To build the C++ interpreter on a typical Linux system:
 
@@ -128,9 +134,8 @@ You can then execute a script with:
 ```
 
 When experimenting with OS development or BIOS‑level workflows, you can
-cross‑compile `nyns.cpp` for your target environment and gradually replace
-its host‑OS calls (`ip`, `adm`, `partition`, etc.) with platform‑specific
-implementations.
+cross‑compile `nyns.cpp` for your target environment and, if needed, replace
+its remaining OS‑specific calls with equivalents for your platform.
 
 ## Contributing to NYNS and These Docs
 
