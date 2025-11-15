@@ -1,8 +1,19 @@
 # nynsdocs documentation
 
-This documentation is written in **Markdown** and built with Sphinx using the
-[`myst-parser`](https://myst-parser.readthedocs.io/) extension.
+NYNS (Not Yo' Normal Shell) can be used by git cloning the shell, heres how to do it!
 
-Add more pages as `.md` files in this `docs/` directory and include them in a
-table of contents here once needed.
+`git clone https://github.com/eotter-beep/nyns`
 
+## Configurations to set to make NYNS work
+
+Configurations you need to make NYNS work (Also called NYNSing), NYNSing is required due to
+
+it being a setup process,
+
+`chmod +x bin/nyns.sh`
+
+Import it in a .sh script like:
+
+`./nyns.sh`, if your script is in the NYNS bin folder,
+
+`help` should be used for command help, This documentation wont help you run commands,
